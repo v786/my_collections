@@ -1,2 +1,4 @@
 moviesite/secret_key.txt
 db.*
+env
+etc

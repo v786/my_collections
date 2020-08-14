@@ -19,13 +19,12 @@ class Movie(models.Model):
     """
     Movie model : model for Movies
     """
-    name = models.CharField(max_length=500)
-    imdb_score = models.FloatField()
-    popularity = models.FloatField()
-    director = models.CharField(max_length=500)
-    genre = models.ManyToManyField(Genre)
+    title = models.CharField(max_length=500)
+    description = models.CharField(max_length=500)
+    genres = models.CharField(max_length=500)
+    uuid = models.UUIDField()
     class Meta:
         verbose_name = "Movie"
         verbose_name_plural = "Movies"
     def __str__(self):
-        return self.name
+        return self.title

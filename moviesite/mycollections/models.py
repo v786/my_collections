@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from moviesite.movies.models import Movie
 
 class MyCollection(models.Model):
     title = models.CharField(max_length=100, default='')

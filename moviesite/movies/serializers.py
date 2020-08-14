@@ -16,8 +16,6 @@ class MovieSerializer(serializers.ModelSerializer):
     """
     Serializer for Movie model
     """
-    genre = GenreSerializer(many=True)
-
     class Meta:
         model = Movie
-        fields = ('name', 'imdb_score', 'popularity', 'director', 'genre')
+        fields = ('title', 'description', 'genres', 'uuid')

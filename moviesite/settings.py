@@ -23,6 +23,13 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 with open(BASE_DIR / 'etc/secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
 
+# SECURITY WARNING: keep the secret key used in production secret!
+with open(BASE_DIR / 'etc/key.txt') as f:
+    API_KEY = f.read().strip()
+# SECURITY WARNING: keep the secret key used in production secret!
+with open(BASE_DIR / 'etc/secret.txt') as f:
+    SECRET = f.read().strip()
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

@@ -5,6 +5,15 @@ from rest_framework.views import APIView
 
 from .serializers import RegistrationSerializer
 
+"""
+{
+    "user": {
+        "username": "appu",
+        "email": "appu@a.com",
+        "password": "asdf1234"
+    }
+}
+"""
 
 class RegistrationAPIView(APIView):
     # Allow any user (authenticated or not) to hit this endpoint.
@@ -14,9 +23,6 @@ class RegistrationAPIView(APIView):
     def post(self, request):
         user = request.data.get('user', {})
 
-        # The create serializer, validate serializer, save serializer pattern
-        # below is common and you will see it a lot throughout this course and
-        # your own work later on. Get familiar with it.
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()

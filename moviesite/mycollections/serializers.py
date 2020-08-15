@@ -1,24 +1,24 @@
 # import the django rest framework serializers
 from rest_framework import serializers
 # import our models
-from .models import Movie, MyCollection
-
-class MovieSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Movie
-        fields = '__all__'
+from users.models import User
+from .models import MyCollection
+from moviesite.movies.models import Movie
 
 class MyCollectionSerializer(serializers.ModelSerializer):
-    movies = Movie(many=True)
-
     class Meta:
         model = MyCollection
-        fields = ('id', 'title', 'description', 'movies')
+        fields = ('title', 'description')
 
     def create(self, validated_data):
-        items_data = validated_data.pop('items')
+        print("validated_data", validated_data)
+        items_data = validated_data['movies']
+        # if validated_data['user']!= None:
+        #     validated_data['user'] = User.objects.filter(pk=validated_data['user']).first()
         my_collection = MyCollection.objects.create(**validated_data)
+        my_collection.save()
         for item_data in items_data:
-            item_data['my_collection_id'] = my_collection.id
-            Movie.objects.create(**item_data)
+            print(item_data)
+            my_collection.movies.add(Movie.objects.filter(uuid = item_data).first())
+            print("here")
         return my_collection

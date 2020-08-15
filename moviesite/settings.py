@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'moviesite.movies',
+    'moviesite.mycollections',
 ]
 
 # Tell Django about the custom `User` model we created. The string

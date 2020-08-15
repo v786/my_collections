@@ -2,6 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from django.conf import settings
 from django.shortcuts import render
+from .service import fetch_movies
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
@@ -23,8 +24,7 @@ from .serializers import MovieSerializer
 def movies(request, format=None):
     url = "https://demo.credy.in/api/v1/maya/movies/"
     payload = {}
-    response = requests.request("GET", url, headers={}, data=payload, auth = HTTPBasicAuth(settings.API_KEY, settings.SECRET))
-    json_response = response.json()
+    json_response = fetch_movies(url)
     return JsonResponse(json_response)
 
 
@@ -32,21 +32,24 @@ def movies(request, format=None):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def create(request, format=None):
+    uid = request.data["uuid"]
     url = "https://demo.credy.in/api/v1/maya/movies/"
-    payload = {}
-    response = requests.request("GET", url, headers={}, data=payload, auth = HTTPBasicAuth(settings.API_KEY, settings.SECRET))
-    json_response = response.json()
-    page = response.json()
+    page = fetch_movies(url)
     data = None
     for each in page["results"]:
-        data = each
-    for key, item in data.items():
-        print(key,item)
+        if(each["uuid"] == uid):
+            data = each
+            break
+    print(data["uuid"])
     serializer = MovieSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()
+        uid = data["uuid"]
+        print(uid)
+        ob = Movie.objects.filter(uuid = uid)
+        if(ob.first() == None):
+            serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return JsonResponse(json_response)
+    return JsonResponse(page)
 
 @api_view(["GET"])
 @permission_classes([AllowAny])

@@ -8,7 +8,7 @@ from moviesite.movies.models import Movie
 class MyCollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyCollection
-        fields = ('title', 'description')
+        fields = ('title', 'description', 'uuid')
 
     def create(self, validated_data):
         print("validated_data", validated_data)

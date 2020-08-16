@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import include, path
 from moviesite.movies import views as movieView
 from moviesite.mycollections.views import MyCollectionAPIView
+from moviesite.mycollections.views import collection_detail
 
 urlpatterns = [
     path('movies/', movieView.movies),
     path('create/', movieView.create),
     path('get/', movieView.get),
+    path('collection/<uuid>/', collection_detail),
     path('collection/', MyCollectionAPIView.as_view()),
     path('admin/', admin.site.urls),
     path('api/', include('users.urls', namespace='users')),
